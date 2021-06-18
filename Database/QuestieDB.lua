@@ -565,11 +565,23 @@ function QuestieDB:IsDoable(questId)
     return true
 end
 
-
+function isCallable(x)
+    if type(x) == 'function' then
+        return true
+    else
+        return false
+    end
+end
 
 ---@param questId QuestId @The quest ID
 ---@return Quest|nil @The quest object or nil if the quest is missing
 function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
+    if not isCallable(QuestieDB.QueryQuest) then
+        DEFAULT_CHAT_FRAME:AddMessage("QuestieDB:GetQuest "..questId.." - QueryQuest IS NOT CALLABLE!!!!!!!")
+        return nil
+    end
+
+
     if questId == nil then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] Expected questID but received nil!")
         return nil
